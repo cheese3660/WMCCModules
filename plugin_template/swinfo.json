@@ -1,0 +1,23 @@
+{
+  "spec": "2.0",
+  "mod_id": "WMCCModules",
+  "author": "Cheese",
+  "name": "Where's My Crew Capsule (Modules)",
+  "description": "The modules used for Where's My Crew Capsule",
+  "source": "",
+  "version": "0.1.0",
+  "version_check": "",
+  "ksp2_version": {
+    "min": "0.1.5",
+    "max": "*"
+  },
+  "dependencies": [
+    {
+      "id": "com.github.x606.spacewarp",
+      "version": {
+        "min": "1.6.0",
+        "max": "*"
+      }
+    }
+  ]
+}
