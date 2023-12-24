@@ -26,13 +26,8 @@ public class Module_Pressurization : PartBehaviourModule
         {
             moduleIsEnabled = true;
         }
-
-        if (PartBackingMode == PartBackingModes.OAB)
-        {
-            _dataPressurization.IsPressurized =
-                _dataPressurization.DefaultPressurizationState || GetIsPressurizationUnlocked();
-        }
-
+        _dataPressurization.IsPressurized =
+            _dataPressurization.DefaultPressurizationState || GetIsPressurizationUnlocked();
         if (_dataPressurization.IsPressurized)
         {
             _dataPressurization.PressurizationState.SetValue("Yes");
