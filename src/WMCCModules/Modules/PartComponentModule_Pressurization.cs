@@ -28,18 +28,20 @@ public class PartComponentModule_Pressurization : PartComponentModule
             return;
         }
         _rosterManager = GameManager.Instance.Game.SessionManager.KerbalRosterManager;
-        
+        _notificationManager = GameManager.Instance.Game.Notifications;
     }
 
     public override void OnUpdate(double universalTime, double deltaUniversalTime)
     {
-        if (!_dataPressurization.IsPressurized) return;
+        if (_dataPressurization.IsPressurized) return;
         _kerbalsInSimObject = _rosterManager.GetAllKerbalsInSimObject(Part.SimulationObject.GlobalId);
         var altitude = Part.PartOwner.SimulationObject.Vessel.AltitudeFromSeaLevel;
-        if (altitude > _dataPressurization.WarningAltitude && !_alreadyWarned)
+        if (altitude > _dataPressurization.WarningAltitude)
         {
-            _alreadyWarned = true;
-            WarnForAllKerbals(universalTime);
+            if (!_alreadyWarned) {
+                _alreadyWarned = true;
+                WarnForAllKerbals(universalTime);
+            }
         }
         else
         {
@@ -62,6 +64,7 @@ public class PartComponentModule_Pressurization : PartComponentModule
                 Importance = NotificationImportance.High,
                 AlertTitle = new NotificationLineItemData
                 {
+                    ObjectParams = new object[]{Part.PartOwner.SimulationObject.Vessel.Name},
                     LocKey = "WMCCModules/Pressurization/Suffocating"
                 },
                 TimeStamp = universalTime,
@@ -82,6 +85,7 @@ public class PartComponentModule_Pressurization : PartComponentModule
                 Importance = NotificationImportance.High,
                 AlertTitle = new NotificationLineItemData
                 {
+                    ObjectParams = new object[]{Part.PartOwner.SimulationObject.Vessel.Name},
                     LocKey = "WMCCModules/Pressurization/Killed"
                 },
                 TimeStamp = universalTime,

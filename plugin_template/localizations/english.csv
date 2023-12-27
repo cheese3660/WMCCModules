@@ -1,5 +1,5 @@
 Key,Type,Desc,English
-WMCCModules/Pressurization/Suffocating,Text,,A Kerbal on board your craft is suffocating!
-WMCCModules/Pressurization/Killed,Text,,A Kerbal on board your craft died due to lack of pressurization
+WMCCModules/Pressurization/Suffocating,Text,,A Kerbal on board ""{0}"" is suffocating!
+WMCCModules/Pressurization/Killed,Text,,A Kerbal on board ""{0}"" died due to lack of pressurization
 WMCCModules/Pressurized,Text,,Pressurized
 WMCCModules/ServiceCeiling,Text,,Service Ceiling
