@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
+    <PropertyGroup>
+        <PowershellExecutable Condition="'$(OS)' == 'Windows_NT'">powershell</PowershellExecutable>
+        <PowershellExecutable Condition="'$(OS)' != 'Windows_NT'">pwsh</PowershellExecutable>
+    </PropertyGroup>
     <Target Label="Post build events" Name="PostBuild" AfterTargets="PostBuildEvent">
         <Message Text="Cleaning up previous build directory"/>
         <RemoveDir Directories="$(SolutionDir)/dist/$(ConfigurationName)"/>
@@ -34,7 +38,7 @@
         <Delete Condition="$(ConfigurationName) == Release"
                 Files="$(SolutionDir)/dist/$(SolutionName)-$(Version).zip"/>
         <Exec Condition="$(ConfigurationName) == Release"
-              Command="powershell Compress-Archive -Path '$(SolutionDir)/dist/$(ConfigurationName)/BepInEx' -DestinationPath '$(SolutionDir)/dist/$(SolutionName)-$(Version).zip'"/>
+              Command="$(PowerShellExecutable) -Command &quot;&amp; {Push-Location '$(SolutionDir)/dist/$(ConfigurationName)'; Compress-Archive -Path './*' -DestinationPath '$(SolutionDir)/dist/$(SolutionName)-$(Version).zip'; Pop-Location}&quot;"/>
 
         <Message Text="Clean up the game's plugin folder" Condition="$(ConfigurationName) == Deploy Or $(ConfigurationName) == DeployAndRun"/>
         <RemoveDir Condition="$(ConfigurationName) == Deploy Or $(ConfigurationName) == DeployAndRun"
@@ -52,7 +56,7 @@
               DestinationFolder="$(KSP2DIR)/BepInEx/plugins/$(ProjectName)/%(RecursiveDir)"/>
 
         <Message Text="Deploy plugin and run game" Condition="$(ConfigurationName) == DeployAndRun"/>
-        <Exec Command="powershell &quot;start-process &quot;&quot;$(KSP2DIR)\KSP2_x64.exe&quot;&quot;&quot;" Condition="$(ConfigurationName) == DeployAndRun"/>
+        <Exec Command="$(PowerShellExecutable) &quot;start-process &quot;&quot;$(KSP2DIR)\KSP2_x64.exe&quot;&quot;&quot;" Condition="$(ConfigurationName) == DeployAndRun"/>
     </Target>
 </Project>
 

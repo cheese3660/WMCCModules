@@ -1,0 +1,42 @@
+name: Upload release
+
+on:
+  release:
+    types: [ "published" ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        uses: dcarbone/install-jq-action@v2.1.0
+
+      - name: Download NuGet
+        id: download-nuget
+        run: |
+          sudo curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+      - name: Build the solution
+        run: dotnet build "WMCCModules.sln" -c Release
+
+      - name: Extract current version
+        id: get-version
+        run: |
+          version=$(jq -r '.version' plugin_template/swinfo.json)
+          echo "Version is $version"
+          echo "version=$version" >> $GITHUB_ENV
+          echo "artifact_name=WMCCModules-$version.zip" >> $GITHUB_ENV
+          echo "zip=$(ls -1 dist/WMCCModules-*.zip | head -n 1)" >> $GITHUB_ENV
+          echo "upload_url=$(wget -qO- https://api.github.com/repos/$GITHUB_REPOSITORY/releases | jq '.[0].upload_url' | tr -d \")" >> $GITHUB_ENV
+      - name: Upload Zip
+        uses: shogo82148/actions-upload-release-asset@v1.7.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.upload_url }}
+          asset_path: ${{ env.zip }}
+          asset_name: ${{ env.artifact_name }}
+          asset_content_type: application/zip
