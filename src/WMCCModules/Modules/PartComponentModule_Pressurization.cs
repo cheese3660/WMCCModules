@@ -48,7 +48,7 @@ public class PartComponentModule_Pressurization : PartComponentModule
             _alreadyWarned = false;
         }
 
-        if (altitude > _dataPressurization.KillAltitude)
+        if (altitude > _dataPressurization.KillAltitude && !_alreadyKilled)
         {
             KillAllKerbals(universalTime);
         }
@@ -74,6 +74,8 @@ public class PartComponentModule_Pressurization : PartComponentModule
                 }
             });
         }
+
+        _alreadyKilled = true;
     }
     private void KillAllKerbals(double universalTime)
     {
