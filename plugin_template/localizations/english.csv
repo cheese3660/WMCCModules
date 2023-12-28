@@ -3,3 +3,5 @@ WMCCModules/Pressurization/Suffocating,Text,,A Kerbal on board ""{0}"" is suffoc
 WMCCModules/Pressurization/Killed,Text,,A Kerbal on board ""{0}"" died due to lack of pressurization
 WMCCModules/Pressurized,Text,,Pressurized
 WMCCModules/ServiceCeiling,Text,,Service Ceiling
+WMCCModules/ControlRange,Text,,Control Range
+WMCCModules/IsControllable,Text,,Is Controllable?

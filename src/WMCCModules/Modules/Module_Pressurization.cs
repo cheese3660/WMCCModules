@@ -12,14 +12,14 @@ public class Module_Pressurization : PartBehaviourModule
     [SerializeField] protected Data_Pressurization _dataPressurization;
     public override Type PartComponentModuleType => typeof(PartComponentModule_Pressurization);
 
-    protected override void AddDataModules()
+    public override void AddDataModules()
     {
         base.AddDataModules();
         _dataPressurization ??= new Data_Pressurization();
         DataModules.TryAddUnique(_dataPressurization, out _dataPressurization);
     }
 
-    protected override void OnInitialize()
+    public override void OnInitialize()
     {
         base.OnInitialize();
         if (PartBackingMode == PartBackingModes.Flight)
