@@ -15,9 +15,8 @@ public class PartComponentModule_CommandPatch
     {
         if (!__instance.Part.Modules.TryGetValue(typeof(PartComponentModule_ControlRange), out var comp)) return true;
         var mcr = comp as PartComponentModule_ControlRange;
-        if (mcr!.DataControlRange.IsControllable.GetValue()) return true;
+        if (mcr!.DataControlRange == null || mcr.DataControlRange.Controllable) return true; 
         __instance.dataCommand.controlStatus.SetValue(CommandControlState.NoCommNetConnection);
         return false;
-
     }
 }

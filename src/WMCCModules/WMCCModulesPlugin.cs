@@ -1,7 +1,9 @@
 using BepInEx;
+using HarmonyLib;
 using JetBrains.Annotations;
 using SpaceWarp;
 using SpaceWarp.API.Mods;
+using WMCCModules.Patches;
 
 namespace WMCCModules;
 
@@ -22,6 +24,7 @@ public class WMCCModulesPlugin : BaseSpaceWarpPlugin
     /// </summary>
     public override void OnInitialized()
     {
+        Harmony.CreateAndPatchAll(typeof(PartComponentModule_CommandPatch));
         base.OnInitialized();
 
         Instance = this;

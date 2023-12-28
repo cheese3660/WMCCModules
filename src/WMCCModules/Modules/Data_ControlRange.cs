@@ -19,12 +19,12 @@ public class Data_ControlRange : ModuleData
     [KSPDefinition]
     public List<ControlRangeDefinition> ControlRangeDefinitions;
 
+    [KSPState] public bool Controllable;
     [KSPState] public Dictionary<string, HashSet<ScienceSitutation>> UnlockedScienceSituations;
     [KSPState] public string CurrentLocalizationKey;
 
     [LocalizedField("WMCCModules/ControlRange")] [PAMDisplayControl(SortIndex = 1)]
     public ModuleProperty<string> ControlRange = new("", true);
-
-    [LocalizedField("WMCCModules/IsControllable")] [PAMDisplayControl(SortIndex = 2)]
-    public ModuleProperty<bool> IsControllable = new(false, true);
+    [LocalizedField("WMCCModules/IsControllable")] [PAMDisplayControl(SortIndex = 1)]
+    public ModuleProperty<string> IsControllable = new("", true);
 }

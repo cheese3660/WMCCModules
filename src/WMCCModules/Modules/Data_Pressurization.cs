@@ -15,8 +15,8 @@ public class Data_Pressurization : ModuleData
     [KSPState] public bool IsPressurized = false;
 
     [LocalizedField("WMCCModules/Pressurized")] [PAMDisplayControl(SortIndex = 1)] [KSPState]
-    public ModuleProperty<string> PressurizationState = new ModuleProperty<string>("", true);
+    public ModuleProperty<string> PressurizationState = new("", true);
     [LocalizedField("WMCCModules/ServiceCeiling")]
     [PAMDisplayControl(SortIndex = 2)]
-    [KSPState] public ModuleProperty<string> ServiceCeiling = new ModuleProperty<string>("", true);
+    [KSPState] public ModuleProperty<string> ServiceCeiling = new("", true);
 }

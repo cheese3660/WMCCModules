@@ -18,6 +18,7 @@ public class Module_ControlRange : PartBehaviourModule
 
     public override void OnInitialize()
     {
+        base.OnInitialize();
         if (PartBackingMode == PartBackingModes.Flight)
         {
             moduleIsEnabled = true;
@@ -26,21 +27,24 @@ public class Module_ControlRange : PartBehaviourModule
         else
         {
             _dataControlRange.SetVisible(_dataControlRange.IsControllable, false);
-            foreach (var definition in _dataControlRange.ControlRangeDefinitions.Where(ComputeControllability))
-            {
-                foreach (var (key, value) in definition.AllowedScienceSituations)
-                {
-                    if (_dataControlRange.UnlockedScienceSituations.TryGetValue(key, out var hs))
-                    {
-                        hs.UnionWith(value);
-                    }
-                    else
-                    {
-                        _dataControlRange.UnlockedScienceSituations.Add(key, new HashSet<ScienceSitutation>(value));
-                    }
+        }
 
-                    _dataControlRange.CurrentLocalizationKey = definition.LocalizationKey;
+        _dataControlRange.UnlockedScienceSituations = [];
+
+        foreach (var definition in _dataControlRange.ControlRangeDefinitions.Where(ComputeControllability))
+        {
+            foreach (var (key, value) in definition.AllowedScienceSituations)
+            {
+                if (_dataControlRange.UnlockedScienceSituations.TryGetValue(key, out var hs))
+                {
+                    hs.UnionWith(value);
                 }
+                else
+                {
+                    _dataControlRange.UnlockedScienceSituations.Add(key, new HashSet<ScienceSitutation>(value));
+                }
+
+                _dataControlRange.CurrentLocalizationKey = definition.LocalizationKey;
             }
         }
 

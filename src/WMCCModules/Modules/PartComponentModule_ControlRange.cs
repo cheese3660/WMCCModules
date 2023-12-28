@@ -37,7 +37,8 @@ public class PartComponentModule_ControlRange : PartComponentModule
             isControllable = hs.Contains(_lastResearchLocation.ScienceSituation);
         }
 
-        DataControlRange.IsControllable.SetValue(isControllable);
+        DataControlRange.Controllable = isControllable;
+        DataControlRange.IsControllable.SetValue(isControllable ? "Yes" : "No");
         _componentModuleCommand.UpdateControlStatus();
     }
 }
