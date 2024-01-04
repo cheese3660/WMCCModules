@@ -10,13 +10,14 @@ namespace WMCCModules.Patches;
 public class PartComponentModule_CommandPatch
 {
     [HarmonyPatch(nameof(PartComponentModule_Command.UpdateControlStatus))]
-    [HarmonyPrefix]
-    public static bool UpdateControlStatus(PartComponentModule_Command __instance)
+    [HarmonyPostfix]
+    public static void UpdateControlStatus(PartComponentModule_Command __instance)
     {
-        if (!__instance.Part.Modules.TryGetValue(typeof(PartComponentModule_ControlRange), out var comp)) return true;
+        if (!WMCCModulesPlugin.Instance.EnableControlRange.Value) return;
+        if (!__instance.Part.Modules.TryGetValue(typeof(PartComponentModule_ControlRange), out var comp)) return;
         var mcr = comp as PartComponentModule_ControlRange;
-        if (mcr!.DataControlRange == null || mcr.DataControlRange.Controllable) return true; 
-        __instance.dataCommand.controlStatus.SetValue(CommandControlState.NoCommNetConnection);
-        return false;
+        if (mcr!.DataControlRange == null || mcr.DataControlRange.Controllable) return;
+        if (__instance.dataCommand.controlStatus.GetValue() == CommandControlState.FullyFunctional)
+            __instance.dataCommand.controlStatus.SetValue(CommandControlState.Hibernating);
     }
 }
