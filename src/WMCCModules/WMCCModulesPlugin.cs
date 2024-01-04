@@ -1,7 +1,9 @@
 using BepInEx;
+using BepInEx.Configuration;
 using HarmonyLib;
 using JetBrains.Annotations;
 using SpaceWarp;
+using SpaceWarp.API.Configuration;
 using SpaceWarp.API.Mods;
 using WMCCModules.Patches;
 
@@ -18,6 +20,12 @@ public class WMCCModulesPlugin : BaseSpaceWarpPlugin
 
     // Singleton instance of the plugin class
     [PublicAPI] public static WMCCModulesPlugin Instance { get; set; }
+    public ConfigValue<bool> EnableControlRange;
+    private void Start()
+    {
+        EnableControlRange = new ConfigValue<bool>(SWConfiguration.Bind("Module Settings", "Enable Control Range", true,
+            "Enable the control range module (what forces you to lose control in certain situations until you unlock a certain tech node)"));
+    }
 
     /// <summary>
     /// Runs when the mod is first initialized.
